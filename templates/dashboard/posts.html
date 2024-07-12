@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block content %}
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<div class="row">
+    <!-- Left sidebar -->
+    {% include 'dashboard/sidebar.html' %}
+    <!-- Left sidebar -->
+     <div class="col-md-9">
+        <h2 class="text-center">All Posts</h2>
+        <a href="{% url 'add_post' %}" class="btn btn-dark text-light float-right mb-3">Add Post</a>
+        <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Title</th>
+                <th scope="col">Category</th>
+                <th scope="col">Author</th>
+                <th scope="col">Status</th>
+                <th scope="col">Featured</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+            {% for post in posts %}
+              <tr>
+                <th scope="row">{{ forloop.counter }}</th>
+                <td>{{ post.title }}</td>
+                <td>{{ post.category }}</td>
+                <td>{{ post.author }}</td>
+                {% if post.status == 0 %}
+                <td>Draft</td>
+                {% else %}
+                <td>Published</td>
+                {% endif %}
+                {% if post.is_featured %}
+                <td class="text-center"><i class="fa fa-check text-success" style="font-size:24px;"></i></td>
+                {% else %}
+                <td class="text-center"><i class="fa fa-times text-danger" style="font-size:24px;"></i></td>
+                {% endif %}
+                <td>
+                    <a href="{% url 'edit_post' post.pk %}"><i class="fa fa-edit text-primary" style="font-size:24px;"></i></a>
+                    &nbsp;
+                    <a href="{% url 'delete_post' post.pk %}"><i class="fa fa-trash text-danger" style="font-size:24px;"></i></a>
+                </td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+     </div>
+</div>
+
+{% endblock %}
